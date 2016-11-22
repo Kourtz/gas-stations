@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Gas_Station.Models.Offer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Offers</h2>
+
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
+    
+    @using (Html.BeginForm())
+    {
+    <p>
+        @Html.TextBox("id")
+        Type: @Html.DropDownList("selectOff", "All")
+        <input type="submit" value="Search" />
+    </p>
+    }
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.ActionLink("Price", "Index", new { sortOrder = ViewBag.PriceSort })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.ActionLink("Date Expired", "Index", new { sortOrder = ViewBag.DateSort })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GasStation.Name)
+            </th>
+            <th>
+                Navigate
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateExpired)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GasStation.Name)
+                </td>
+                <td>
+                    <a href=@string.Format("https://www.google.com/maps?saddr=My+Location&daddr={0},{1}",item.GasStation.Latitude,item.GasStation.Longitude) target="_blank">Go!</a>
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                    @if (User.IsInRole("Admin"))
+                    {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br />
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    }
+                    
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    @section scripts{
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqyoMXUS9GC9pwrlIe1Tl9AyVoKEvX8KY&sensor=false" type="text/javascript"></script> }

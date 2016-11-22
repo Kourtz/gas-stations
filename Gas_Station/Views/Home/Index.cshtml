@@ -1,0 +1,51 @@
+﻿@using Jmelosegui.Mvc.GoogleMap
+@model IEnumerable<Gas_Station.Models.GasStation>
+
+
+@{
+    ViewBag.Title = "Map";
+}
+
+<div>
+    @{ 
+        Html.GoogleMap()
+       .Name("map")
+       .Center(c => c.UseCurrentPosition().Latitude(37.984032).Longitude(23.728099))
+       .Zoom(16)
+       .Height(600)
+       .Markers(m => m.Add().Window(window => window.Add().Content(@<text><b>You are here</b></text>)).Icon("http://maps.google.com/mapfiles/ms/icons/blue-dot.png"))
+       .BindTo<Gas_Station.Models.GasStation, Marker>
+(Model, mappings => mappings.For<Gas_Station.Models.GasStation>
+   (
+       binding => binding.ItemDataBound
+           (
+               (marker, gas) =>
+               {
+                   //marker.Address = gas.Address;
+                   marker.Title = gas.Name;
+                   marker.Latitude = gas.Latitude;
+                   marker.Longitude = gas.Longitude;
+                   marker.Window = new InfoWindow(marker)
+                   {
+                       Template =
+                       {
+                           Content = () => ViewContext.Writer.Write("<div><b>{0}<br>{1} €/lt</b><br>{2}<br><a href=\"https://www.google.com/maps?saddr=My+Location&daddr={3},{4}\" target=\"_blank\">Get directions</a></div>",gas.Brand,gas.Price,gas.Name,gas.Latitude,gas.Longitude)
+                       }
+                   };
+               }
+           )
+   )
+).Render();
+        }
+
+</div>
+
+@section scripts
+        {
+    @(Html.GoogleMap().ScriptRegistrar())
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqyoMXUS9GC9pwrlIe1Tl9AyVoKEvX8KY&sensor=false" type="text/javascript"></script>
+}
+
+
+
+      

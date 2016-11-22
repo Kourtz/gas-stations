@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Gas_Station.Models.GasStation>
+
+@{
+    ViewBag.Title = "Gas Stations";
+}
+
+<h2>Find Gas Stations</h2>
+
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+       @Html.ActionLink("Create New", "Create")
+    }
+    
+
+    @using (Html.BeginForm())
+    {
+    <p>
+        @Html.TextBox("id")
+        Municipality: @Html.DropDownList("selectMun", "All")
+        <input type="submit" value="Search" /><br />
+    </p>
+    }
+
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Municipality", "Index", new { SortOrder = ViewBag.MunSort })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dep)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.ActionLink("Brand", "Index", new { sortOrder = ViewBag.BrandSort })
+            </th>
+            <th>
+                @Html.ActionLink("Price", "Index", new { sortOrder = ViewBag.PriceSort })
+            </th>
+            <th>
+                @Html.ActionLink("PriceUpdate", "Index", new { sortOrder = ViewBag.DateSort })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Municipality)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dep)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriceUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br />
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    }
+                </td>
+                @*<td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                      <a href="@Url.Action("Offers","Create", new { id = item.Id })">Create Offer</a> 
+                    }
+
+                </td>*@
+            </tr>
+        }
+
+    </table>
