@@ -18,6 +18,7 @@
     <p>
         @Html.TextBox("id")
         Municipality: @Html.DropDownList("selectMun", "All")
+        Brand: @Html.DropDownList("selectBrand", (SelectList)ViewBag.BrandList, "All", new { style = "width: 150px" })           @*new SelectList(string.Empty, "Value", "Text"))*@
         <input type="submit" value="Search" /><br />
     </p>
     }
@@ -30,7 +31,7 @@
                 @Html.ActionLink("Municipality", "Index", new { SortOrder = ViewBag.MunSort })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Dep)
+                Department
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Address)
@@ -45,10 +46,10 @@
                 @Html.ActionLink("PriceUpdate", "Index", new { sortOrder = ViewBag.DateSort })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Phone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                Navigate
             </th>
             <th></th>
         </tr>
@@ -65,20 +66,99 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Brand)
-                </td>
-                <td>
+
+
+
+                @if (item.Brand == "AVIN")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/avin.png" alt="AVIN" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "BP")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/bp-logo.jpg" alt="BP" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "CYCLON")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/Cyclon.png" alt="CYCLON" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "EKO")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/brand.gif" alt="EKO" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "JETOIL")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/images_jet2.jpg" alt="JETOIL" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "REVOIL")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/revoil.jpg" alt="REVOIL" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "SHELL")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/shell.jpg" alt="SHELL" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "SILKOIL")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/silk-oil.jpg" alt="SILKOIL" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "ΑΙΓΑΙΟ (AEGEAN)")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/aegean.jpg" alt="AEGEAN" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "ΑΡΓΩ")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/argo.jpg" alt="ΑΡΓΩ" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "ΕΛΙΝΟΙΛ")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/index.png" alt="ΕΛΙΝΟΙΛ" height="50" width="50" />
+                    </td>
+                }
+                else if (item.Brand == "ΕΤΕΚΑ")
+                {
+                    <td>
+                        <img src="~/Content/images/brands/eteka.jpg" alt="ΕΤΕΚΑ" height="50" width="50" />
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Brand)
+                    </td>
+                }
+
+                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PriceUpdate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Phone)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
+                    <a href=@string.Format("https://www.google.com/maps?saddr=My+Location&daddr={0},{1}&mode=driving",item.Latitude,item.Longitude) target="_blank">Go!</a>
                 </td>
                 <td>
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
@@ -89,13 +169,48 @@
                     }
                 </td>
                 @*<td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                      <a href="@Url.Action("Offers","Create", new { id = item.Id })">Create Offer</a> 
-                    }
+                        @if (User.IsInRole("Admin"))
+                        {
+                          <a href="@Url.Action("Offers","Create", new { id = item.Id })">Create Offer</a>
+                        }
 
-                </td>*@
+                    </td>*@
             </tr>
         }
 
     </table>
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //Dropdownlist Selectedchange event
+        $("#selectMun").change(function () {
+            $("#selectBrand").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DynamicListBrands")',
+                dataType: 'json',
+                data: { mun: $("#selectMun").val() },
+                success: function (BrandSelectList) {
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    $.each(BrandSelectList, function (i, brand) {
+                        $("#selectBrand").append('<option value="' + brand.Value + '">' + brand.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve attributes.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#id").autocomplete({
+            source: '@Url.Action("DynamicSearch")',
+        });
+    })
+</script>

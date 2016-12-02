@@ -89,6 +89,14 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -141,6 +149,10 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnidecodeSharpFork, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UnidecodeSharpFork.1.0.0\lib\UnidecodeSharpFork.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Velyo.Google.Client, Version=2.1.0.133, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Maps.Client.2.1.0.133\lib\net45\Velyo.Google.Client.dll</HintPath>
@@ -253,10 +265,26 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\brands\aegean-700px.png" />
+    <Content Include="Content\images\brands\aegean.jpg" />
+    <Content Include="Content\images\brands\argo.jpg" />
+    <Content Include="Content\images\brands\avin.png" />
+    <Content Include="Content\images\brands\bp-logo.jpg" />
+    <Content Include="Content\images\brands\brand.gif" />
+    <Content Include="Content\images\brands\Cyclon.png" />
+    <Content Include="Content\images\brands\eteka.jpg" />
+    <Content Include="Content\images\brands\images_jet2.jpg" />
+    <Content Include="Content\images\brands\index.png" />
+    <Content Include="Content\images\brands\revoil.jpg" />
+    <Content Include="Content\images\brands\shell.jpg" />
+    <Content Include="Content\images\brands\silk-oil.jpg" />
     <Content Include="Content\images\energy-fuel-gas-gasoline-oil-petrol-icon-png-10.png" />
+    <Content Include="Content\images\free.png" />
     <Content Include="Content\images\Fuel-Logo.png" />
     <Content Include="Content\images\fueleconomy.jpg" />
     <Content Include="Content\images\ico.png" />
+    <Content Include="Content\images\logo.png.png" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
